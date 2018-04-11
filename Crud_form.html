@@ -5,8 +5,7 @@
 	     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
 </head>
-<body>
-
+<body ng-app="myApp">
       <div class="generic-container container" ng-controller="AppController as ctrl">
           <div class="panel panel-default">
               <div class="panel-heading" style="margin-bottom: 25px;"><span class="lead">User Registration Form </span></div>
@@ -88,5 +87,35 @@
           </div>
       </div>
             <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>  
+            <script type="text/javascript">
+            	          angular.module('myApp', [])
+          .controller('AppController', ['$scope', function($scope) {
+              var self = this;
+              self.user={id:null,username:'',address:'',email:''};
+              self.id = 4;
+               
+              self.users = [// In future posts, we will get it from server using service
+                      {id:1, username: 'Sam', address: 'NY', email: 'sam@abc.com'},
+                      {id:2, username: 'Tomy', address: 'ALBAMA', email: 'tomy@abc.com'},
+                      {id:3, username: 'kelly', address: 'NEBRASKA', email: 'kelly@abc.com'}
+              ];
+               
+              self.submit = function() {
+                  if(self.user.id === null){
+                      self.user.id = self.id++;
+                      console.log('Saving New User', self.user);    
+                      self.users.push(self.user);//Or send to server, we will do it in when handling services
+                  }else{
+                      for(var i = 0; i < self.users.length; i++){
+                          if(self.users[i].id === self.user.id) {
+                            self.users[i] = self.user;
+                            break;
+                          }
+                      }
+                     console.log('User updated with id ', self.user.id);
+                  }
+                  self.reset();
+              };
+            </script>
 </body>
 </html>
